@@ -1,0 +1,78 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Slack Clone</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="myModal" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>Enter your username:</p>
+      <input id="username_input_field"></input>
+      <button id="add_user_btn">OK</button> 
+    </div>
+  </div>
+  </div>
+  <div class="header">
+    <div class="team-menu">Team Fantastic</div>
+    <div class="channel-menu">
+      <span class="channel-menu_name">
+        <span class="channel-menu_prefix">#</span> general </span>
+    </div>
+  </div>
+  <div class="main">
+    <div class="listings">
+      <div class="listings_channels">
+        <h2 class="listings_header">Channels</h2>
+        <ul class="channel_list">
+          <li class="channel active">
+            <a class="channel_name">
+              <span class="unread">1</span>
+              <span>
+                <span class="prefix">#</span>general</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="listings_direct-messages">
+        <h2 class="listings_header">Direct Messages</h2>
+        <ul class="channel_list">
+          <li class="channel">
+            <a class="channel_name">
+              <span class="unread">1</span>
+              <span>
+                <span class="prefix"> </span>kryton</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="message-history">
+    </div>
+  </div>
+  <div class="footer">
+    <div class="user-menu">
+      <input id='username_input' type="hidden">
+      <span class="user-menu_profile-pic"></span>
+      <span class="user-menu_username">Krypton</span>
+      <img src="data:image/png;base64,iVBORw0KGgoAAAAN..." class="connection_icon">
+      <span class="connection_status">online</span>
+    </div>
+    <div class="input-box">
+      <input type="text" class="input-box_text">
+      <p id="typing_indicator"></p>
+    </div>
+  </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+<script src="chat.js"></script>
+
+</html>
