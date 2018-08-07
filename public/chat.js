@@ -2,10 +2,11 @@ $(function () {
 	//make connection:
 	var socket = io.connect('http://localhost:3000');
 	//buttons and inputs:
-	var chathistory = $(".message-history");
+	var chat_history = $(".message-history");
 	var send_username = $(".channel-menu");
 	//Default username:
-	var username = 'krypton';
+	var username = 'krypto';
+	var currentContext = '#general'
 	$('#myModal').css('display', 'block');
 	$('#add_user_btn').on('click', () => {
 		username = $('#username_input_field').val();
@@ -13,9 +14,8 @@ $(function () {
 		$('.user-menu_username').text(username);
 		$('.listings_direct-messages ul.channel_list').append('<li class="channel">' +
 			'<a class="channel_name">' +
-			'<span class="unread">1</span>' +
-			'<span>' +
-			`<span class="prefix"> </span># ${username}</span>` +
+			'<span class="text">' +
+			`<span class="prefix">#</span>${username}</span>` +
 			'</a>' +
 			'</li>');
 	}); 
@@ -23,8 +23,11 @@ $(function () {
 	$('.channel_list').on('click', 'li.channel',function (event) {
 		$('li').removeClass('active');
 		$(this).addClass("active");
-		//Write more code here:
+		currentContext = $(this).find('span.text')[0].innerText;
+		$('.channel-menu_name')[0].innerText = currentContext;
+		chat_history.empty();
 	});
+	
 
 	$('.input-box_text').on('input', function () {
 		socket.emit('typing');
@@ -38,19 +41,18 @@ $(function () {
 		}
 	});
 
-	$('.user-menu_username').on('click', function () {
-		username = 'Pluto';
-	});
-
 	//Listen on new_message:
 	socket.on("new_message", (data) => {
-		chathistory.append(`<div class="message">` +
+		console.log(currentContext);
+		if(currentContext == '#general' || username == data.username ){
+			chat_history.append(`<div class="message">` +
 			'<a href="{{\'\'}}" class="message_profile-pic"></a>' +
 			`<a class="message_username">${data.username}</a>` +
 			`<span class="message_timestamp">${new Date().getHours()} : ${new Date().getMinutes()}</span>` +
 			'<span class="message_star"></span>' +
 			`<span class="message_content">${data.message}</span>` +
 			'</div>');
+		}
 	});
 
 	//Emit a username:
