@@ -4,15 +4,23 @@ $(function () {
 	//buttons and inputs:
 	var chathistory = $(".message-history");
 	var send_username = $(".channel-menu");
-	var input = $('.input-box_text');
+	//Default username:
 	var username = 'krypton';
 	$('#myModal').css('display', 'block');
-	$('#add_user_btn').on('click', ()=>{
+	$('#add_user_btn').on('click', () => {
 		username = $('#username_input_field').val();
 		$('#myModal').css('display', 'none');
-	});
+		$('.user-menu_username').text(username);
+		$('.listings_direct-messages ul.channel_list').append('<li class="channel">' +
+			'<a class="channel_name">' +
+			'<span class="unread">1</span>' +
+			'<span>' +
+			`<span class="prefix"> </span># ${username}</span>` +
+			'</a>' +
+			'</li>');
+	}); 
 
-	$('.channel').click(function (event) {
+	$('.channel_list').on('click', 'li.channel',function (event) {
 		$('li').removeClass('active');
 		$(this).addClass("active");
 		//Write more code here:
@@ -25,12 +33,12 @@ $(function () {
 	$('.input-box_text').keypress(function (event) {
 		if (event.keyCode === 13) {
 			//Fire up the event emmiter:
-			socket.emit('new_message', { message: $('.input-box_text').val() , username: username});
+			socket.emit('new_message', { message: $('.input-box_text').val(), username: username });
 			$('.input-box_text').val('');
 		}
 	});
 
-	$('.user-menu_username').on('click', function(){
+	$('.user-menu_username').on('click', function () {
 		username = 'Pluto';
 	});
 
