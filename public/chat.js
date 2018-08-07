@@ -5,11 +5,11 @@ $(function () {
 	var chat_history = $(".message-history");
 	var send_username = $(".channel-menu");
 	//Default username:
-	var username = 'krypto';
+	var username = '#krypto';
 	var currentContext = '#general'
 	$('#myModal').css('display', 'block');
 	$('#add_user_btn').on('click', () => {
-		username = $('#username_input_field').val();
+		username = '#' + $('#username_input_field').val();
 		$('#myModal').css('display', 'none');
 		$('.user-menu_username').text(username);
 		socket.emit('user_created', { username: username })
@@ -30,15 +30,16 @@ $(function () {
 
 	$('.input-box_text').keypress(function (event) {
 		if (event.keyCode === 13) {
-			socket.emit('new_message', { message: $('.input-box_text').val(), username: username });
+			socket.emit('new_message', { message: $('.input-box_text').val(), sender: username, receiver: currentContext });
 			$('.input-box_text').val('');
 		}
 	});
 
 	//Listen on new_message:
 	socket.on("new_message", (data) => {
-		console.log(currentContext);
-		if (currentContext == '#general' || username == data.username) {
+		if ((currentContext == '#general' && data.receiver == '#general') || 
+			(data.receiver == username && currentContext == data.sender) || 
+			data.sender == username) {
 			chat_history.append(`<div class="message">` +
 				'<a href="{{\'\'}}" class="message_profile-pic"></a>' +
 				`<a class="message_username">${data.username}</a>` +
@@ -78,7 +79,7 @@ $(function () {
 		$('.listings_direct-messages ul.channel_list').append('<li class="channel">' +
 			'<a class="channel_name">' +
 			'<span class="text">' +
-			`<span class="prefix">#</span>${name}</span>` +
+			`${name}</span>` +
 			'</a>' +
 			'</li>');
 	}

@@ -4,7 +4,7 @@ let userMaps = [];
 //set the template engine ejs:
 app.set('view engine', 'hbs');
 
-//middlewares
+//middlewares:
 app.use(express.static('public'));
 
 //routes
@@ -24,11 +24,9 @@ const io = require("socket.io")(server);
 io.on('connection', (socket) => {
     //listen on new_message:
     socket.on('new_message', (data) => {
-        io.sockets.emit('new_message', { message: data.message, username: data.username });
+        io.sockets.emit('new_message', { message: data.message, sender: data.sender, receiver: data.receiver, username: data.sender.replace('#', '') });
         //broadcast the new message:
     });
-
-    console.log(socket.ID);
     //listen on typing:
     // socket.on('typing', (data) => {
     //     console.log(data);
