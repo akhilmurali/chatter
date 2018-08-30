@@ -1,16 +1,40 @@
 const express = require('express');
 const app = express();
+let passport = require('passport');
+let LocalStrategy = require('passport-local').Strategy;
+let router = require('./router');
 let userMaps = [];
+let mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost/slackclone');
+
 //set the template engine ejs:
 app.set('view engine', 'hbs');
-
+//Intitialize express sessions.
+app.use(require('express-session')({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 //middlewares:
 app.use(express.static('public'));
+//Add route handling middleware:
+app.use('/', router);
 
-//routes
-app.get('/', (req, res) => {
-    res.render('index');
-});
+// Connect Flash
+app.use(flash());
+
+// Global Vars
+app.use(function (req, res, next) {
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    res.locals.error = req.flash('error');
+    res.locals.user = req.user || null;
+    next();
+  });
+  
 
 //Listen on port 3000:
 server = app.listen(3000, () => {
