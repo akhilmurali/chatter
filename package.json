@@ -13,6 +13,8 @@
   "author": "Akhil Murali <github@akhilmurali.com>",
   "license": "MIT",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
     "connect-flash": "^0.1.1",
     "ejs": "^2.5.7",
     "express": "^4.16.2",

@@ -1,5 +1,6 @@
 let passport = require('passport');
 let LocalStrategy = require('passport-local').Strategy;
+let User = require('./models/User');
 
 const root = (req, res) => {
     res.render('index');

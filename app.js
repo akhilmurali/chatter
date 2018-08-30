@@ -6,6 +6,7 @@ let router = require('./router');
 let userMaps = [];
 let mongoose = require('mongoose');
 let flash = require('connect-flash');
+let bodyParser = require('body-parser');
 
 mongoose.connect('mongodb://localhost/slackclone');
 
@@ -17,15 +18,15 @@ app.use(require('express-session')({
     resave: false,
     saveUninitialized: false
 }));
+app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 //middlewares:
 app.use(express.static('public'));
-//Add route handling middleware:
-app.use('/', router);
-
 // Connect Flash
 app.use(flash());
+//Add route handling middleware:
+app.use('/', router);
 
 // Global Vars
 app.use(function (req, res, next) {
