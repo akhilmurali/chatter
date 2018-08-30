@@ -5,6 +5,7 @@ let LocalStrategy = require('passport-local').Strategy;
 let router = require('./router');
 let userMaps = [];
 let mongoose = require('mongoose');
+let flash = require('connect-flash');
 
 mongoose.connect('mongodb://localhost/slackclone');
 
