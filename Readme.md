@@ -1,6 +1,6 @@
-# SlackClone 
+# Chatter 
 
-A bare bones implementation of the popular chat application "Slack".
+An opensource implementation of instant messaging application similar to now popular "Slack".
 
 The application uses passport module for user authentication and utilizes sockets for emitting and receiving chat events. The app has group chat, self chat and two user chats built in. Tests for the application are written using the mocha framework.
 
