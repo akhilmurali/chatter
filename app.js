@@ -10,6 +10,7 @@ let User = require('./models/User');
 let bcrypt = require('bcryptjs');
 let userMaps = [];
 
+let port = process.env.port || 3000;
 //set the template engine hbs:
 app.set('view engine', 'hbs');
 //Intitialize express sessions:
@@ -74,8 +75,8 @@ app.use(function (req, res, next) {
 });
 
 //Listen on port 3000:
-server = app.listen(3000, () => {
-    console.log('Server listening on port ' + 3000);
+server = app.listen(port, () => {
+    console.log('Server listening on port ' + port);
 });
 
 //socket.io instantiation
@@ -106,7 +107,7 @@ io.on('connection', (socket) => {
 
 //Set up connection to the database:
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/slackclone', { useNewUrlParser: true })
+mongoose.connect(process.env.REMOTE_DB_URL, { useNewUrlParser: true })
     .then(() => {
         console.log('Establised connection to database');
     })
