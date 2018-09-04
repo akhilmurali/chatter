@@ -8,6 +8,7 @@ let flash = require('connect-flash');
 let bodyParser = require('body-parser');
 let User = require('./models/User');
 let bcrypt = require('bcryptjs');
+require('dotenv').config();
 let userMaps = [];
 
 let port = process.env.port || 3000;
