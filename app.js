@@ -11,7 +11,7 @@ let bcrypt = require('bcryptjs');
 require('dotenv').config();
 let userMaps = [];
 
-let port = process.env.port || 3000;
+let port = process.env.PORT || 3000;
 //set the template engine hbs:
 app.set('view engine', 'hbs');
 //Intitialize express sessions:
