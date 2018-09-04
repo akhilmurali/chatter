@@ -7,11 +7,11 @@ const root = (req, res) => {
 }
 
 const getRegistrationForm = (req, res) => {
-    res.render('register');
+    res.render('register',{layout: 'layouts/root'});
 }
 
 const login = (req, res) => {
-    res.render('login');
+    res.render('login', {layout: 'layouts/root'});
 }
 
 const homeRedirect = (req, res)=>{
@@ -54,16 +54,3 @@ const register = (req, res) => {
 }
 
 module.exports = { root, login, register, getRegistrationForm, logout, homeRedirect };
-
-
-
-
-
-
-
-
-
-
-
-
-

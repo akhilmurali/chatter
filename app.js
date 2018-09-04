@@ -38,10 +38,8 @@ passport.use(new LocalStrategy(
                     return done(done, false);
                 }
                 else {
-                    console.log(verifyPassword(user, password), '##########################');
                     if (verifyPassword(user, password)) {
                         user.password = null;
-                        console.log('*************************User verified***********************');
                         return done(null, user);
                     } else {
                         return done(null, false);
@@ -123,7 +121,6 @@ mongoose.connection.on('error', (err) => {
 });
 
 const verifyPassword = (user, password) => {
-    //console.log(password, user.password);
     return bcrypt.compareSync(password, user.password);
 }
 
