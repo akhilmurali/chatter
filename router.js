@@ -2,20 +2,18 @@ let express = require('express');
 let router = express.Router();
 let controller = require('./controller');
 let passport = require('passport');
-let LocalStrategy = require('passport-local').Strategy;
 
+//GET homepage:
 router.get('/', controller.root);
-
-// Login:
+// GET Login: 
 router.get('/login', controller.login);
-
+//GET Registration:
 router.get('/register', controller.getRegistrationForm);
-
-// Register User:
+// POST Registration:
 router.post('/register', controller.register);
-
-router.post('login',controller.checklogincredentials);
-
+// POST Login:
+router.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), controller.homeRedirect);
+//GET Logout:
 router.get('/logout', controller.logout);
 
 module.exports = router;

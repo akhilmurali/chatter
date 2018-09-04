@@ -1,9 +1,9 @@
 let passport = require('passport');
-let LocalStrategy = require('passport-local').Strategy;
 let User = require('./models/User');
+let bcrypt = require('bcryptjs');
 
 const root = (req, res) => {
-    res.render('index');
+    res.render('chat');
 }
 
 const getRegistrationForm = (req, res) => {
@@ -14,8 +14,8 @@ const login = (req, res) => {
     res.render('login');
 }
 
-const checklogincredentials = () => {
-    passport.authenticate('local', { successRedirect: '/', failureRedirect: '/users/login', failureFlash: true });
+const homeRedirect = (req, res)=>{
+    res.redirect('/');
 }
 
 const logout = (req, res) => {
@@ -25,83 +25,45 @@ const logout = (req, res) => {
 }
 
 const register = (req, res) => {
-    var name = req.body.name;
-    var email = req.body.email;
-    var username = req.body.username;
-    var password = req.body.password;
-    var password2 = req.body.password2;
-
-    let errors = null;
-
-    if (errors) {
-        res.render('register', {
-            errors: errors
-        });
-    }
-    else {
-        //checking for email and username are already taken
-        User.findOne({
-            username: {
-                "$regex": "^" + username + "\\b", "$options": "i"
-            }
-        }, function (err, user) {
-            User.findOne({
-                email: {
-                    "$regex": "^" + email + "\\b", "$options": "i"
-                }
-            }, function (err, mail) {
-                if (user || mail) {
-                    res.render('register', {
-                        user: user,
-                        mail: mail
-                    });
-                }
-                else {
-                    var newUser = new User({
-                        name: name,
-                        email: email,
-                        username: username,
-                        password: password
-                    });
-                    User.createUser(newUser, function (err, user) {
-                        if (err) throw err;
-                        console.log(user);
-                    });
-                    req.flash('success_msg', 'You are registered and can now login');
+    if (req.body.password == req.body.password2) {
+        let salt = bcrypt.genSaltSync(8);
+        let hash = bcrypt.hashSync(req.body.password, salt);
+        console.log(hash);
+        req.body.password = hash;
+        User.findOne({ username: req.body.username })
+            .then((user) => {
+                if (user) {
+                    req.flash('status', 'User exits');
                     res.redirect('/login');
                 }
+            }).catch((err) => {
+                res.json({ err: err });
             });
-        });
+        User.create(req.body)
+            .then((user) => {
+                req.flash('status', 'singup successful');
+                res.redirect('/login');
+            })
+            .catch((err) => {
+                res.json({ err: err });
+            })
+    } else {
+        req.flash('status', 'Password mismatch');
+        res.redirect('/register');
     }
 }
 
-passport.use(new LocalStrategy(
-    function (username, password, done) {
-        User.getUserByUsername(username, function (err, user) {
-            if (err) throw err;
-            if (!user) {
-                return done(null, false, { message: 'Unknown User' });
-            }
+module.exports = { root, login, register, getRegistrationForm, logout, homeRedirect };
 
-            User.comparePassword(password, user.password, function (err, isMatch) {
-                if (err) throw err;
-                if (isMatch) {
-                    return done(null, user);
-                } else {
-                    return done(null, false, { message: 'Invalid password' });
-                }
-            });
-        });
-    }));
 
-passport.serializeUser(function (user, done) {
-    done(null, user.id);
-});
 
-passport.deserializeUser(function (id, done) {
-    User.getUserById(id, function (err, user) {
-        done(err, user);
-    });
-});
 
-module.exports = { root, login, register, checklogincredentials, getRegistrationForm, logout };
+
+
+
+
+
+
+
+
+
