@@ -4,7 +4,7 @@ let controller = require('./controller');
 let passport = require('passport');
 
 //GET homepage:
-router.get('/', controller.root);
+router.get('/', controller.checkAuthentication, controller.root);
 // GET Login: 
 router.get('/login', controller.login);
 //GET Registration:

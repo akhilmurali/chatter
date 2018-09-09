@@ -2,22 +2,12 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Slack Clone</title>
+  <title>Chattr</title>
   <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <div id="myModal" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <p>Enter your username:</p>
-      <input id="username_input_field"></input>
-      <button id="add_user_btn">OK</button>
-    </div>
-  </div>
-  </div>
   <div class="header">
     <div class="team-menu">Team Fantastic</div>
     <div class="channel-menu">
@@ -47,11 +37,11 @@
     <div class="message-history">
     </div>
   </div>
-  <div class="footer">
+  <div class="footer">  
     <div class="user-menu">
       <input id='username_input' type="hidden">
       <span class="user-menu_profile-pic"></span>
-      <span class="user-menu_username">Krypton</span>
+      <span class="user-menu_username">{{username}}</span>
       <img src="data:image/png;base64,iVBORw0KGgoAAAAN..." class="connection_icon">
       <span class="connection_status">online</span>
     </div>

@@ -16,7 +16,7 @@ let port = process.env.PORT || 3000;
 app.set('view engine', 'hbs');
 //Intitialize express sessions:
 app.use(require('express-session')({
-    secret: 'keyboard cat',
+    secret: process.env.secret,
     resave: false,
     saveUninitialized: false
 }));
@@ -87,6 +87,7 @@ const io = require("socket.io")(server);
 io.on('connection', (socket) => {
     //listen on new_message:
     socket.on('new_message', (data) => {
+        console.log(data);
         io.sockets.emit('new_message', { message: data.message, sender: data.sender, receiver: data.receiver, username: data.sender.replace('#', '') });
         //broadcast the new message:
     });

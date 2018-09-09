@@ -1,20 +1,29 @@
-let passport = require('passport');
 let User = require('./models/User');
 let bcrypt = require('bcryptjs');
 
 const root = (req, res) => {
-    res.render('chat');
+    console.log(req.user);
+    res.render('chat', {username: req.user.name});
+}
+
+const checkAuthentication = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        //if user is looged in, req.isAuthenticated() will return true 
+        next();
+    } else {
+        res.redirect("/login");
+    }
 }
 
 const getRegistrationForm = (req, res) => {
-    res.render('register',{layout: 'layouts/root'});
+    res.render('register', { layout: 'layouts/root' });
 }
 
 const login = (req, res) => {
-    res.render('login', {layout: 'layouts/root'});
+    res.render('login', { layout: 'layouts/root' });
 }
 
-const homeRedirect = (req, res)=>{
+const homeRedirect = (req, res) => {
     res.redirect('/');
 }
 
@@ -53,4 +62,4 @@ const register = (req, res) => {
     }
 }
 
-module.exports = { root, login, register, getRegistrationForm, logout, homeRedirect };
+module.exports = { root, login, register, getRegistrationForm, logout, homeRedirect, checkAuthentication };
