@@ -1,4 +1,4 @@
-# Chatter 
+# Chattr 
 
 An opensource implementation of instant messaging application similar to now popular "Slack".
 
