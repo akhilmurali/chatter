@@ -9,10 +9,10 @@ The application uses passport module for user authentication and utilizes socket
 
 ### Demo
 
-## Group Chat
+#### Group Chat
 ![alt text](https://s3.amazonaws.com/bucket.invenlook.storage/group_chat.png)
 
-## Mutual Chat
+#### Mutual Chat
 ![alt text](https://s3.amazonaws.com/bucket.invenlook.storage/mutual_chat.png)
 
 
