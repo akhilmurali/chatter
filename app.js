@@ -10,6 +10,7 @@ let User = require('./models/User');
 let bcrypt = require('bcryptjs');
 require('dotenv').config();
 let userMaps = [];
+let socketMap = {};
 
 let port = process.env.PORT || 3000;
 //set the template engine hbs:
@@ -87,8 +88,15 @@ const io = require("socket.io")(server);
 io.on('connection', (socket) => {
     //listen on new_message:
     socket.on('new_message', (data) => {
-        console.log(data);
-        io.sockets.emit('new_message', { message: data.message, sender: data.sender, receiver: data.receiver, username: data.sender.replace('#', '') });
+        if(data.receiver == '#general'){
+            io.sockets.emit('new_message', { message: data.message, sender: data.sender, receiver: data.receiver, username: data.sender.replace('#', '') });     
+        }else{
+            console.log(socketMap);
+            let socket_id = socketMap[data.receiver.replace('#','')];
+            io.to(socket_id).emit('new_message',  { message: data.message, sender: data.sender, receiver: data.receiver, username: data.sender.replace('#', '') });
+            socket_id = socketMap[data.sender.replace('#','')];
+            io.to(socket_id).emit('new_message', { message: data.message, sender: data.sender, receiver: data.receiver, username: data.sender.replace('#', '') });            
+        }
         //broadcast the new message:
     });
     //listen on typing:
@@ -102,6 +110,8 @@ io.on('connection', (socket) => {
     });
 
     socket.on('user_created', (data) => {
+        socketMap[data.username] = socket.id;
+        console.log(socketMap);
         io.sockets.emit('user_added', { username: data.username, previous_members: userMaps });
         userMaps.push(data.username);
     });

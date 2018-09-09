@@ -1,6 +1,6 @@
 $(function () {
 	//make connection:
-	var socket = io.connect('http://localhost:3000');
+	var socket = io.connect('http://localhost:3000', {username: $(".user-menu_username").text()});
 	//buttons and inputs:
 	var chat_history = $(".message-history");
 	var send_username = $(".channel-menu");
@@ -8,7 +8,7 @@ $(function () {
 	var username = $(".user-menu_username").text();
 	var currentContext = '#general'
 	socket.emit('user_created', { username: username })
-
+	
 	$('.channel_list').on('click', 'li.channel', function (event) {
 		$('li').removeClass('active');
 		$(this).addClass("active");
