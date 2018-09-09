@@ -21,4 +21,4 @@ $ npm install
 ```sh
 $ npm start
 ```
-Find deployment link here: https://radiant-savannah-40458.herokuapp.com/register
+Find deployment link here: https://radiant-savannah-40458.herokuapp.com/
