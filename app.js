@@ -55,7 +55,6 @@ passport.use(new LocalStrategy(
             });
     }));
 
-
 passport.serializeUser(function (user, done) {
     done(null, user.id);
 });
@@ -81,7 +80,7 @@ server = app.listen(port, () => {
     console.log('Server listening on port ' + port);
 });
 
-//socket.io instantiation
+//socket.io instantiation:
 const io = require("socket.io")(server);
 
 //listen on every connection
@@ -137,3 +136,4 @@ const verifyPassword = (user, password) => {
     return bcrypt.compareSync(password, user.password);
 }
 
+module.exports = { app, io };
